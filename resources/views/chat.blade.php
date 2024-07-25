@@ -87,9 +87,15 @@
             PElement.html(Responses.result.trim());
             PromptInput.val("");
         } catch (error) {
-            console.error(error);
+
+            const errorMessage = error.responseJSON && error.responseJSON.message;
+        if (errorMessage && errorMessage.includes("LANGUAGE")) {
+            PElement.addClass("error");
+            PElement.text("Oops! I can only speak English. Please try again with different input.");
+        }else{
             PElement.addClass("error");
             PElement.text("Oops something went wrong while getting responses please try again");
+        }
         }
         IncominChatDiv.find(".loading-dots-animation").remove();
         IncominChatDiv.find(".chat-details").append(PElement);
